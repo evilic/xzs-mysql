@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @SpringBootApplication
 @EnableTransactionManagement
-@EnableConfigurationProperties(value = { SystemConfig.class})
+@EnableConfigurationProperties(value = {SystemConfig.class})
 @EnableCaching
 public class XzsApplication {
 

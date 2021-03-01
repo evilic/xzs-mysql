@@ -7,12 +7,9 @@ import com.mindskip.xzs.domain.enums.QuestionTypeEnum;
 import com.mindskip.xzs.domain.exam.ExamPaperTitleItemObject;
 import com.mindskip.xzs.domain.other.KeyValue;
 import com.mindskip.xzs.domain.other.ExamPaperAnswerUpdate;
-import com.mindskip.xzs.domain.task.TaskItemAnswerObject;
-import com.mindskip.xzs.repository.*;
 import com.mindskip.xzs.repository.ExamPaperAnswerMapper;
 import com.mindskip.xzs.repository.ExamPaperMapper;
 import com.mindskip.xzs.repository.QuestionMapper;
-import com.mindskip.xzs.repository.TaskExamCustomerAnswerMapper;
 import com.mindskip.xzs.service.ExamPaperAnswerService;
 import com.mindskip.xzs.service.ExamPaperQuestionCustomerAnswerService;
 import com.mindskip.xzs.service.TextContentService;
@@ -24,7 +21,6 @@ import com.mindskip.xzs.viewmodel.student.exam.ExamPaperSubmitVM;
 import com.mindskip.xzs.viewmodel.student.exampaper.ExamPaperAnswerPageVM;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.mindskip.xzs.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,17 +38,15 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
     private final TextContentService textContentService;
     private final QuestionMapper questionMapper;
     private final ExamPaperQuestionCustomerAnswerService examPaperQuestionCustomerAnswerService;
-    private final TaskExamCustomerAnswerMapper taskExamCustomerAnswerMapper;
 
     @Autowired
-    public ExamPaperAnswerServiceImpl(ExamPaperAnswerMapper examPaperAnswerMapper, ExamPaperMapper examPaperMapper, TextContentService textContentService, QuestionMapper questionMapper, ExamPaperQuestionCustomerAnswerService examPaperQuestionCustomerAnswerService, TaskExamCustomerAnswerMapper taskExamCustomerAnswerMapper) {
+    public ExamPaperAnswerServiceImpl(ExamPaperAnswerMapper examPaperAnswerMapper, ExamPaperMapper examPaperMapper, TextContentService textContentService, QuestionMapper questionMapper, ExamPaperQuestionCustomerAnswerService examPaperQuestionCustomerAnswerService) {
         super(examPaperAnswerMapper);
         this.examPaperAnswerMapper = examPaperAnswerMapper;
         this.examPaperMapper = examPaperMapper;
         this.textContentService = textContentService;
         this.questionMapper = questionMapper;
         this.examPaperQuestionCustomerAnswerService = examPaperQuestionCustomerAnswerService;
-        this.taskExamCustomerAnswerMapper = taskExamCustomerAnswerMapper;
     }
 
     @Override
@@ -69,11 +63,7 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
         ExamPaper examPaper = examPaperMapper.selectByPrimaryKey(examPaperSubmitVM.getId());
         ExamPaperTypeEnum paperTypeEnum = ExamPaperTypeEnum.fromCode(examPaper.getPaperType());
         //任务试卷只能做一次
-        if (paperTypeEnum == ExamPaperTypeEnum.Task) {
-            ExamPaperAnswer examPaperAnswer = examPaperAnswerMapper.getByPidUid(examPaperSubmitVM.getId(), user.getId());
-            if (null != examPaperAnswer)
-                return null;
-        }
+
         String frameTextContent = textContentService.selectById(examPaper.getFrameTextContentId()).getContent();
         List<ExamPaperTitleItemObject> examPaperTitleItemObjects = JsonUtil.toJsonListObject(frameTextContent, ExamPaperTitleItemObject.class);
         List<Integer> questionIds = examPaperTitleItemObjects.stream().flatMap(t -> t.getQuestionItems().stream().map(q -> q.getId())).collect(Collectors.toList());
@@ -125,24 +115,24 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
         examPaperQuestionCustomerAnswerService.updateScore(examPaperAnswerUpdates);
 
         ExamPaperTypeEnum examPaperTypeEnum = ExamPaperTypeEnum.fromCode(examPaperAnswer.getPaperType());
-        switch (examPaperTypeEnum) {
-            case Task:
-                //任务试卷批改完成后，需要更新任务的状态
-                ExamPaper examPaper = examPaperMapper.selectByPrimaryKey(examPaperAnswer.getExamPaperId());
-                Integer taskId = examPaper.getTaskExamId();
-                Integer userId = examPaperAnswer.getCreateUser();
-                TaskExamCustomerAnswer taskExamCustomerAnswer = taskExamCustomerAnswerMapper.getByTUid(taskId, userId);
-                TextContent textContent = textContentService.selectById(taskExamCustomerAnswer.getTextContentId());
-                List<TaskItemAnswerObject> taskItemAnswerObjects = JsonUtil.toJsonListObject(textContent.getContent(), TaskItemAnswerObject.class);
-                taskItemAnswerObjects.stream()
-                        .filter(d -> d.getExamPaperAnswerId().equals(examPaperAnswer.getId()))
-                        .findFirst().ifPresent(taskItemAnswerObject -> taskItemAnswerObject.setStatus(examPaperAnswer.getStatus()));
-                textContentService.jsonConvertUpdate(textContent, taskItemAnswerObjects, null);
-                textContentService.updateByIdFilter(textContent);
-                break;
-            default:
-                break;
-        }
+//        switch (examPaperTypeEnum) {
+//            case Task:
+//                //任务试卷批改完成后，需要更新任务的状态
+//                ExamPaper examPaper = examPaperMapper.selectByPrimaryKey(examPaperAnswer.getExamPaperId());
+//                Integer taskId = examPaper.getTaskExamId();
+//                Integer userId = examPaperAnswer.getCreateUser();
+//                TaskExamCustomerAnswer taskExamCustomerAnswer = taskExamCustomerAnswerMapper.getByTUid(taskId, userId);
+//                TextContent textContent = textContentService.selectById(taskExamCustomerAnswer.getTextContentId());
+//                List<TaskItemAnswerObject> taskItemAnswerObjects = JsonUtil.toJsonListObject(textContent.getContent(), TaskItemAnswerObject.class);
+//                taskItemAnswerObjects.stream()
+//                        .filter(d -> d.getExamPaperAnswerId().equals(examPaperAnswer.getId()))
+//                        .findFirst().ifPresent(taskItemAnswerObject -> taskItemAnswerObject.setStatus(examPaperAnswer.getStatus()));
+//                textContentService.jsonConvertUpdate(textContent, taskItemAnswerObjects, null);
+//                textContentService.updateByIdFilter(textContent);
+//                break;
+//            default:
+//                break;
+//        }
         return ExamUtil.scoreToVM(customerScore);
     }
 

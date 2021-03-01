@@ -20,7 +20,7 @@ import java.util.UUID;
 @Service
 public class UserTokenServiceImpl extends BaseServiceImpl<UserToken> implements UserTokenService {
 
-    private final static String CACHE_NAME = "xzs:token";
+    private final static String CACHE_NAME = "ctm:token"; // 原来是 xzs:token
     private final UserTokenMapper userTokenMapper;
     private final UserService userService;
     private final SystemConfig systemConfig;
@@ -55,6 +55,19 @@ public class UserTokenServiceImpl extends BaseServiceImpl<UserToken> implements 
         }
         return null;
     }
+
+    /*
+    @Cacheable(value = { "sampleCache" },key="#id")，这个注释的意思是，当调用这个方法的时候，
+    会从一个名叫 sampleCache 的缓存(缓存本质是一个map)中查询key为id的值，
+    如果不存在，则执行实际的方法（即查询数据库等服务逻辑），并将执行的结果存入缓存中，
+    否则返回缓存中的对象。这里的缓存中的 key 就是参数 id，value 就是 返回的String 对象
+    这里的缓存中的 key 就是参数 id，value 就是 返回的String 对象
+
+
+    Spring Cache缺陷：
+使用缓存的类必须是Bean，否则无法注入切面。
+必须是不同Bean之间的方法调用，否则无法触发切面。规避方法
+     */
 
     @Override
     @Cacheable(value = CACHE_NAME, key = "#token", unless = "#result == null")

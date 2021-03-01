@@ -6,7 +6,6 @@ import com.mindskip.xzs.domain.enums.QuestionTypeEnum;
 import com.mindskip.xzs.event.CalculateExamPaperAnswerCompleteEvent;
 import com.mindskip.xzs.service.ExamPaperAnswerService;
 import com.mindskip.xzs.service.ExamPaperQuestionCustomerAnswerService;
-import com.mindskip.xzs.service.TaskExamCustomerAnswerService;
 import com.mindskip.xzs.service.TextContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -26,14 +25,12 @@ public class CalculateExamPaperAnswerListener implements ApplicationListener<Cal
     private final ExamPaperAnswerService examPaperAnswerService;
     private final ExamPaperQuestionCustomerAnswerService examPaperQuestionCustomerAnswerService;
     private final TextContentService textContentService;
-    private final TaskExamCustomerAnswerService examCustomerAnswerService;
 
     @Autowired
-    public CalculateExamPaperAnswerListener(ExamPaperAnswerService examPaperAnswerService, ExamPaperQuestionCustomerAnswerService examPaperQuestionCustomerAnswerService, TextContentService textContentService, TaskExamCustomerAnswerService examCustomerAnswerService) {
+    public CalculateExamPaperAnswerListener(ExamPaperAnswerService examPaperAnswerService, ExamPaperQuestionCustomerAnswerService examPaperQuestionCustomerAnswerService, TextContentService textContentService) {
         this.examPaperAnswerService = examPaperAnswerService;
         this.examPaperQuestionCustomerAnswerService = examPaperQuestionCustomerAnswerService;
         this.textContentService = textContentService;
-        this.examCustomerAnswerService = examCustomerAnswerService;
     }
 
     @Override
@@ -58,13 +55,13 @@ public class CalculateExamPaperAnswerListener implements ApplicationListener<Cal
         });
         examPaperQuestionCustomerAnswerService.insertList(examPaperQuestionCustomerAnswers);
 
-        switch (ExamPaperTypeEnum.fromCode(examPaper.getPaperType())) {
-            case Task: {
-                examCustomerAnswerService.insertOrUpdate(examPaper, examPaperAnswer, now);
-                break;
-            }
-            default:
-                break;
-        }
+//        switch (ExamPaperTypeEnum.fromCode(examPaper.getPaperType())) {
+//            case Task: {
+//                examCustomerAnswerService.insertOrUpdate(examPaper, examPaperAnswer, now);
+//                break;
+//            }
+//            default:
+//                break;
+//        }
     }
 }

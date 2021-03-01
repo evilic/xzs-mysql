@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>xzs</name>
-    <description>学之思考试系统 -  武汉思维跳跃科技有限公司</description>
+    <description>学之思考试系统 - CTM裁切版</description>
 
 
     <properties>
@@ -41,11 +41,7 @@
 
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
-            <version>${spring.boot.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -72,39 +68,60 @@
             <artifactId>spring-boot-starter-undertow</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.session</groupId>
-            <artifactId>spring-session-data-redis</artifactId>
-            <version>${spring.boot.version}</version>
-        </dependency>
+
+        <!-- redis信赖-->
+<!--        在spring boot的版本号为1.4.0 之后，才有 spring-boot-starter-data-redis的jar包。-->
+<!--        也就是把 spring-boot-starter-redis的jar包修改成  spring-boot-starter-data-redis jar包-->
+<!--        使用spring-session-data-redis实现HTTP Session集中管理原理-->
+<!--        想入门的话，可以看这个 https://segmentfault.com/a/1190000011091273-->
+
+<!--        spring-session-data-redis 貌似暂时没有用到-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.session</groupId>-->
+<!--            <artifactId>spring-session-data-redis</artifactId>-->
+<!--            <version>${spring.boot.version}</version>-->
+<!--        </dependency>-->
+
+<!--        理论上，使用 redis 的时候不需要 spring-boot-starter-cache 的。-->
+<!--        当你导入这一个依赖时，SpringBoot的CacheManager就会使用RedisCache。-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-cache</artifactId>-->
+<!--            <version>${spring.boot.version}</version>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.6.1</version>
+        </dependency>
+
+
+
+
+        <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.1.0</version>
         </dependency>
+<!--        分页插件-->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.12</version>
         </dependency>
-
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
-            <version>2.6.1</version>
-        </dependency>
+
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>

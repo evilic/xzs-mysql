@@ -137,10 +137,10 @@ public class ExamPaperServiceImpl extends BaseServiceImpl<ExamPaper> implements 
         }).collect(Collectors.toList());
         vm.setTitleItems(examPaperTitleItemVMS);
         vm.setScore(ExamUtil.scoreToVM(examPaper.getScore()));
-        if (ExamPaperTypeEnum.TimeLimit == ExamPaperTypeEnum.fromCode(examPaper.getPaperType())) {
-            List<String> limitDateTime = Arrays.asList(DateTimeUtil.dateFormat(examPaper.getLimitStartTime()), DateTimeUtil.dateFormat(examPaper.getLimitEndTime()));
-            vm.setLimitDateTime(limitDateTime);
-        }
+//        if (ExamPaperTypeEnum.TimeLimit == ExamPaperTypeEnum.fromCode(examPaper.getPaperType())) {
+//            List<String> limitDateTime = Arrays.asList(DateTimeUtil.dateFormat(examPaper.getLimitStartTime()), DateTimeUtil.dateFormat(examPaper.getLimitEndTime()));
+//            vm.setLimitDateTime(limitDateTime);
+//        }
         return vm;
     }
 
@@ -179,10 +179,10 @@ public class ExamPaperServiceImpl extends BaseServiceImpl<ExamPaper> implements 
         examPaper.setScore(score);
         examPaper.setGradeLevel(gradeLevel);
         List<String> dateTimes = examPaperEditRequestVM.getLimitDateTime();
-        if (ExamPaperTypeEnum.TimeLimit == ExamPaperTypeEnum.fromCode(examPaper.getPaperType())) {
-            examPaper.setLimitStartTime(DateTimeUtil.parse(dateTimes.get(0), DateTimeUtil.STANDER_FORMAT));
-            examPaper.setLimitEndTime(DateTimeUtil.parse(dateTimes.get(1), DateTimeUtil.STANDER_FORMAT));
-        }
+//        if (ExamPaperTypeEnum.TimeLimit == ExamPaperTypeEnum.fromCode(examPaper.getPaperType())) {
+//            examPaper.setLimitStartTime(DateTimeUtil.parse(dateTimes.get(0), DateTimeUtil.STANDER_FORMAT));
+//            examPaper.setLimitEndTime(DateTimeUtil.parse(dateTimes.get(1), DateTimeUtil.STANDER_FORMAT));
+//        }
     }
 
     private List<ExamPaperTitleItemObject> frameTextContentFromVM(List<ExamPaperTitleItemVM> titleItems) {

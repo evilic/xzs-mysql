@@ -1,3 +1,21 @@
+#这是 spring boot 的配置文件
+
+#application.properties和application.yml两个文件任选一个就行，但是项目却两个配置文件都有。
+#如果工程中同时存在application.properties文件和 application.yml文件
+#yml文件会先加载，而后加载的properties文件会覆盖yml文件。
+#所以建议工程中，只使用其中一种类型的文件即可。
+#https://www.jianshu.com/p/40e49a4e05c5
+
+#容我考虑一下用哪个配置文件？不知道只用application.properties会不会减少所需要信赖的jar包数量？删除application.properties
+#在创建一个 SpringBoot 项目时，引入的 spring-boot-starter-web 依赖间接地引入了 snakeyaml 依赖
+#snakeyaml 会实现对 YAML 配置的解析。
+
+#可以使用 @PropertySource 注解加载自定义的 Properties 配置文件，但无法加载自定义的 YAML 文件。
+#YAML 支持列表的配置，而 Properties 不支持。
+
+
+#port 是指服务器的监听端口
+
 server:
   port: 8000
   undertow:
@@ -56,12 +74,17 @@ pagehelper:
 spring:
   session:
     store-type: redis
-  datasource:
+  datasource: #数据库配置
+    url: jdbc:mysql://192.168.112.135:3306/xzs?useSSL=false&useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true&allowMultiQueries=true
+    username: root
+    password: 1qazXSW@#
+    driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       idle-timeout: 600000  #10 min
       max-lifetime: 1800000 #30 min
-  redis:
-    timeout: 10000 #超时时间
+  redis: #此处配置完全是spring-boot-starter-data-redis相关配置参数，跟spring-session-data-redis无关。后者依赖前者
+    host: 192.168.112.135
+    timeout: 1000 #超时时间
     database: 0 #0-15 16个库 默认0
     lettuce:
       pool:
