@@ -49,6 +49,11 @@ public class QuestionController extends BaseApiController {
         return RestResponse.ok(page);
     }
 
+    /**
+     * 编辑问题。
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public RestResponse edit(@RequestBody @Valid QuestionEditRequestVM model) {
         RestResponse validQuestionEditRequestResult = validQuestionEditRequestVM(model);
@@ -82,14 +87,16 @@ public class QuestionController extends BaseApiController {
 
     private RestResponse validQuestionEditRequestVM(QuestionEditRequestVM model) {
         int qType = model.getQuestionType().intValue();
-        boolean requireCorrect = qType == QuestionTypeEnum.SingleChoice.getCode() || qType == QuestionTypeEnum.TrueFalse.getCode();
+        // 单选题 或 判断题
+        boolean requireCorrect = qType == QuestionTypeEnum.SingleChoice.getCode() ||
+                qType == QuestionTypeEnum.TrueFalse.getCode();
         if (requireCorrect) {
             if (StringUtils.isBlank(model.getCorrect())) {
                 String errorMsg = ErrorUtil.parameterErrorFormat("correct", "不能为空");
                 return new RestResponse<>(SystemCode.ParameterValidError.getCode(), errorMsg);
             }
         }
-
+        // 填空题
         if (qType == QuestionTypeEnum.GapFilling.getCode()) {
             Integer fillSumScore = model.getItems().stream().mapToInt(d -> ExamUtil.scoreFromVM(d.getScore())).sum();
             Integer questionScore = ExamUtil.scoreFromVM(model.getScore());
