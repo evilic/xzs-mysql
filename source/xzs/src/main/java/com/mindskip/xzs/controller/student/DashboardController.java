@@ -5,21 +5,13 @@ import com.mindskip.xzs.base.RestResponse;
 import com.mindskip.xzs.domain.TextContent;
 import com.mindskip.xzs.domain.User;
 import com.mindskip.xzs.domain.enums.ExamPaperTypeEnum;
-import com.mindskip.xzs.domain.task.TaskItemAnswerObject;
-import com.mindskip.xzs.domain.task.TaskItemObject;
 import com.mindskip.xzs.service.*;
-import com.mindskip.xzs.utility.DateTimeUtil;
-import com.mindskip.xzs.utility.JsonUtil;
 import com.mindskip.xzs.viewmodel.student.dashboard.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController("StudentDashboardController")
 @RequestMapping(value = "/api/student/dashboard")

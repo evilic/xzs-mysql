@@ -1,9 +1,13 @@
 package com.mindskip.xzs.controller;
 
+import com.mindskip.xzs.base.RestResponse;
 import com.mindskip.xzs.domain.QuestionCtm;
 import com.mindskip.xzs.service.QuestionCtmService;
+import com.mindskip.xzs.viewmodel.QuestionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * @author Emerson
@@ -25,30 +29,21 @@ public class QuestionController {
 //        return RestResponse.ok(page);
     }
 
-//
-//    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-//    public RestResponse edit(@RequestBody @Valid QuestionEditRequestVM model) {
-//        RestResponse validQuestionEditRequestResult = validQuestionEditRequestVM(model);
-//        if (validQuestionEditRequestResult.getCode() != SystemCode.OK.getCode()) {
-//            return validQuestionEditRequestResult;
-//        }
-//
-//        if (null == model.getId()) {
-//            questionService.insertFullQuestion(model, getCurrentUser().getId());
-//        } else {
-//            questionService.updateFullQuestion(model);
-//        }
-//
-//        return RestResponse.ok();
-//    }
-//
+
+    @PostMapping("/v1/questions")
+    public RestResponse edit(@RequestBody @Valid QuestionRequest model) {
+        // TODO: 验证
+        questionCtmService.insert(model);
+        return RestResponse.ok();
+    }
+
 //    @RequestMapping(value = "/select/{id}", method = RequestMethod.POST)
 //    public RestResponse<QuestionEditRequestVM> select(@PathVariable Integer id) {
 //        QuestionEditRequestVM newVM = questionService.getQuestionEditRequestVM(id);
 //        return RestResponse.ok(newVM);
 //    }
-//
-//
+
+
 //    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
 //    public RestResponse delete(@PathVariable Integer id) {
 //        Question question = questionService.selectById(id);
@@ -56,7 +51,7 @@ public class QuestionController {
 //        questionService.updateByIdFilter(question);
 //        return RestResponse.ok();
 //    }
-//
+
 //    private RestResponse validQuestionEditRequestVM(QuestionEditRequestVM model) {
 //        int qType = model.getQuestionType().intValue();
 //        // 单选题 或 判断题

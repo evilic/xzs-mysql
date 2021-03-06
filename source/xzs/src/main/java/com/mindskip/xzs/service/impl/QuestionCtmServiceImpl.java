@@ -4,6 +4,7 @@ import com.mindskip.xzs.domain.QuestionCtm;
 import com.mindskip.xzs.repository.QuestionCtmMapper;
 import com.mindskip.xzs.service.QuestionCtmService;
 import com.mindskip.xzs.utility.ModelMapperSingle;
+import com.mindskip.xzs.viewmodel.QuestionRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,5 +22,10 @@ public class QuestionCtmServiceImpl implements QuestionCtmService {
     @Override
     public QuestionCtm selectById(Integer id) {
         return questionCtmMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public QuestionCtm insert(QuestionRequest newQuestion) {
+        return null;
     }
 }
