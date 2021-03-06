@@ -2,15 +2,12 @@ package com.mindskip.xzs.controller.student;
 
 import com.mindskip.xzs.base.BaseApiController;
 import com.mindskip.xzs.base.RestResponse;
-import com.mindskip.xzs.domain.Message;
-import com.mindskip.xzs.domain.MessageUser;
 import com.mindskip.xzs.domain.User;
 import com.mindskip.xzs.domain.UserEventLog;
 import com.mindskip.xzs.domain.enums.RoleEnum;
 import com.mindskip.xzs.domain.enums.UserStatusEnum;
 import com.mindskip.xzs.event.UserEvent;
 import com.mindskip.xzs.service.AuthenticationService;
-import com.mindskip.xzs.service.MessageService;
 import com.mindskip.xzs.service.UserEventLogService;
 import com.mindskip.xzs.service.UserService;
 import com.mindskip.xzs.utility.DateTimeUtil;
@@ -38,15 +35,13 @@ public class UserController extends BaseApiController {
 
     private final UserService userService;
     private final UserEventLogService userEventLogService;
-    private final MessageService messageService;
     private final AuthenticationService authenticationService;
     private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
-    public UserController(UserService userService, UserEventLogService userEventLogService, MessageService messageService, AuthenticationService authenticationService, ApplicationEventPublisher eventPublisher) {
+    public UserController(UserService userService, UserEventLogService userEventLogService, AuthenticationService authenticationService, ApplicationEventPublisher eventPublisher) {
         this.userService = userService;
         this.userEventLogService = userEventLogService;
-        this.messageService = messageService;
         this.authenticationService = authenticationService;
         this.eventPublisher = eventPublisher;
     }
@@ -107,37 +102,6 @@ public class UserController extends BaseApiController {
             return vm;
         }).collect(Collectors.toList());
         return RestResponse.ok(userEventLogVMS);
-    }
-
-    @RequestMapping(value = "/message/page", method = RequestMethod.POST)
-    public RestResponse<PageInfo<MessageResponseVM>> messagePageList(@RequestBody MessageRequestVM messageRequestVM) {
-        messageRequestVM.setReceiveUserId(getCurrentUser().getId());
-        PageInfo<MessageUser> messageUserPageInfo = messageService.studentPage(messageRequestVM);
-        List<Integer> ids = messageUserPageInfo.getList().stream().map(d -> d.getMessageId()).collect(Collectors.toList());
-        List<Message> messages = ids.size() != 0 ? messageService.selectMessageByIds(ids) : null;
-        PageInfo<MessageResponseVM> page = PageInfoHelper.copyMap(messageUserPageInfo, e -> {
-            MessageResponseVM vm = modelMapper.map(e, MessageResponseVM.class);
-            messages.stream().filter(d -> e.getMessageId().equals(d.getId())).findFirst().ifPresent(message -> {
-                vm.setTitle(message.getTitle());
-                vm.setContent(message.getContent());
-                vm.setSendUserName(message.getSendUserName());
-            });
-            vm.setCreateTime(DateTimeUtil.dateFormat(e.getCreateTime()));
-            return vm;
-        });
-        return RestResponse.ok(page);
-    }
-
-    @RequestMapping(value = "/message/unreadCount", method = RequestMethod.POST)
-    public RestResponse unReadCount() {
-        Integer count = messageService.unReadCount(getCurrentUser().getId());
-        return RestResponse.ok(count);
-    }
-
-    @RequestMapping(value = "/message/read/{id}", method = RequestMethod.POST)
-    public RestResponse read(@PathVariable Integer id) {
-        messageService.read(id);
-        return RestResponse.ok();
     }
 
 }
