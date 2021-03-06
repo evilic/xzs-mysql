@@ -34,8 +34,6 @@ public interface ExamPaperMapper extends BaseMapper<ExamPaper> {
 
     List<PaperInfo> indexPaper(PaperFilter paperFilter);
 
-    Integer selectAllCount();
-
     List<KeyValue> selectCountByDate(@Param("startTime") Date startTime, @Param("endTime") Date endTime);
 
     int updateTaskPaper(@Param("taskId") Integer taskId,@Param("paperIds") List<Integer> paperIds);

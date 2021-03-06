@@ -11,6 +11,4 @@ public interface UserEventLogService extends BaseService<UserEventLog> {
     List<UserEventLog> getUserEventLogByUserId(Integer id);
 
     PageInfo<UserEventLog> page(UserEventPageRequestVM requestVM);
-
-    List<Integer> selectMothCount();
 }

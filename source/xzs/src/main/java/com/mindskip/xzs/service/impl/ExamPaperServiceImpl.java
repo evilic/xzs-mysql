@@ -149,12 +149,6 @@ public class ExamPaperServiceImpl extends BaseServiceImpl<ExamPaper> implements 
         return examPaperMapper.indexPaper(paperFilter);
     }
 
-
-    @Override
-    public Integer selectAllCount() {
-        return examPaperMapper.selectAllCount();
-    }
-
     @Override
     public List<Integer> selectMothCount() {
         Date startTime = DateTimeUtil.getMonthStartDay();

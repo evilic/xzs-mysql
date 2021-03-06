@@ -19,7 +19,5 @@ public interface QuestionService extends BaseService<Question> {
 
     QuestionEditRequestVM getQuestionEditRequestVM(Question question);
 
-    Integer selectAllCount();
-
     List<Integer> selectMothCount();
 }

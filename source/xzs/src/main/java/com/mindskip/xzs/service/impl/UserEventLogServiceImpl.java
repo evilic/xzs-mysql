@@ -38,17 +38,17 @@ public class UserEventLogServiceImpl extends BaseServiceImpl<UserEventLog> imple
         );
     }
 
-
-    @Override
-    public List<Integer> selectMothCount() {
-        Date startTime = DateTimeUtil.getMonthStartDay();
-        Date endTime = DateTimeUtil.getMonthEndDay();
-        List<KeyValue> mouthCount = userEventLogMapper.selectCountByDate(startTime, endTime);
-        List<String> mothStartToNowFormat = DateTimeUtil.MothStartToNowFormat();
-        return mothStartToNowFormat.stream().map(md -> {
-            KeyValue keyValue = mouthCount.stream().filter(kv -> kv.getName().equals(md)).findAny().orElse(null);
-            return null == keyValue ? 0 : keyValue.getValue();
-        }).collect(Collectors.toList());
-    }
+//
+//    @Override
+//    public List<Integer> selectMothCount() {
+//        Date startTime = DateTimeUtil.getMonthStartDay();
+//        Date endTime = DateTimeUtil.getMonthEndDay();
+//        List<KeyValue> mouthCount = userEventLogMapper.selectCountByDate(startTime, endTime);
+//        List<String> mothStartToNowFormat = DateTimeUtil.MothStartToNowFormat();
+//        return mothStartToNowFormat.stream().map(md -> {
+//            KeyValue keyValue = mouthCount.stream().filter(kv -> kv.getName().equals(md)).findAny().orElse(null);
+//            return null == keyValue ? 0 : keyValue.getValue();
+//        }).collect(Collectors.toList());
+//    }
 
 }

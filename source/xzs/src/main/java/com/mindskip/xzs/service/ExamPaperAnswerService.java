@@ -44,9 +44,6 @@ public interface ExamPaperAnswerService extends BaseService<ExamPaperAnswer> {
      */
     ExamPaperSubmitVM examPaperAnswerToVM(Integer id);
 
-
-    Integer selectAllCount();
-
     List<Integer> selectMothCount();
 
     PageInfo<ExamPaperAnswer> adminPage(com.mindskip.xzs.viewmodel.admin.paper.ExamPaperAnswerPageRequestVM requestVM);

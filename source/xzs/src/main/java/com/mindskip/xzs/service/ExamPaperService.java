@@ -25,7 +25,5 @@ public interface ExamPaperService extends BaseService<ExamPaper> {
 
     List<PaperInfo> indexPaper(PaperFilter paperFilter);
 
-    Integer selectAllCount();
-
     List<Integer> selectMothCount();
 }

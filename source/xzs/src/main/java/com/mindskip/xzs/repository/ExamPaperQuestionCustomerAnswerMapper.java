@@ -30,9 +30,7 @@ public interface ExamPaperQuestionCustomerAnswerMapper extends BaseMapper<ExamPa
 
     int insertList(List<ExamPaperQuestionCustomerAnswer> list);
 
-    Integer selectAllCount();
-
-    List<KeyValue> selectCountByDate(@Param("startTime") Date startTime, @Param("endTime") Date endTime);
+//    List<KeyValue> selectCountByDate(@Param("startTime") Date startTime, @Param("endTime") Date endTime);
 
     int updateScore(List<ExamPaperAnswerUpdate> examPaperAnswerUpdates);
 }

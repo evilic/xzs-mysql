@@ -29,10 +29,5 @@ public interface ExamPaperQuestionCustomerAnswerService extends BaseService<Exam
      */
     ExamPaperSubmitItemVM examPaperQuestionCustomerAnswerToVM(ExamPaperQuestionCustomerAnswer qa);
 
-
-    Integer selectAllCount();
-
-    List<Integer> selectMothCount();
-
     int updateScore(List<ExamPaperAnswerUpdate> examPaperAnswerUpdates);
 }

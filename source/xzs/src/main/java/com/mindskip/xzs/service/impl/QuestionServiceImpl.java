@@ -171,11 +171,6 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question> implements Qu
     }
 
     @Override
-    public Integer selectAllCount() {
-        return questionMapper.selectAllCount();
-    }
-
-    @Override
     public List<Integer> selectMothCount() {
         Date startTime = DateTimeUtil.getMonthStartDay();
         Date endTime = DateTimeUtil.getMonthEndDay();

@@ -86,16 +86,4 @@ public class DateTimeUtil {
         }
         return mothDays;
     }
-
-
-    public static List<String> MothDay() {
-        Calendar endCalendar = Calendar.getInstance();
-        endCalendar.setTime(getMonthEndDay());
-        int endMothDay = endCalendar.get(Calendar.DAY_OF_MONTH);
-        List<String> list = new ArrayList<>(endMothDay);
-        for (int i = 1; i <= endMothDay; i++) {
-            list.add(String.valueOf(i));
-        }
-        return list;
-    }
 }

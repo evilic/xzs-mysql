@@ -152,11 +152,6 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
     }
 
     @Override
-    public Integer selectAllCount() {
-        return examPaperAnswerMapper.selectAllCount();
-    }
-
-    @Override
     public List<Integer> selectMothCount() {
         Date startTime = DateTimeUtil.getMonthStartDay();
         Date endTime = DateTimeUtil.getMonthEndDay();

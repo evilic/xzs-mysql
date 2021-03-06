@@ -67,22 +67,17 @@ public class ExamPaperQuestionCustomerAnswerServiceImpl extends BaseServiceImpl<
         return examPaperSubmitItemVM;
     }
 
-    @Override
-    public Integer selectAllCount() {
-        return examPaperQuestionCustomerAnswerMapper.selectAllCount();
-    }
-
-    @Override
-    public List<Integer> selectMothCount() {
-        Date startTime = DateTimeUtil.getMonthStartDay();
-        Date endTime = DateTimeUtil.getMonthEndDay();
-        List<KeyValue> mouthCount = examPaperQuestionCustomerAnswerMapper.selectCountByDate(startTime, endTime);
-        List<String> mothStartToNowFormat = DateTimeUtil.MothStartToNowFormat();
-        return mothStartToNowFormat.stream().map(md -> {
-            KeyValue keyValue = mouthCount.stream().filter(kv -> kv.getName().equals(md)).findAny().orElse(null);
-            return null == keyValue ? 0 : keyValue.getValue();
-        }).collect(Collectors.toList());
-    }
+//    @Override
+//    public List<Integer> selectMothCount() {
+//        Date startTime = DateTimeUtil.getMonthStartDay();
+//        Date endTime = DateTimeUtil.getMonthEndDay();
+//        List<KeyValue> mouthCount = examPaperQuestionCustomerAnswerMapper.selectCountByDate(startTime, endTime);
+//        List<String> mothStartToNowFormat = DateTimeUtil.MothStartToNowFormat();
+//        return mothStartToNowFormat.stream().map(md -> {
+//            KeyValue keyValue = mouthCount.stream().filter(kv -> kv.getName().equals(md)).findAny().orElse(null);
+//            return null == keyValue ? 0 : keyValue.getValue();
+//        }).collect(Collectors.toList());
+//    }
 
     @Override
     public int updateScore(List<ExamPaperAnswerUpdate> examPaperAnswerUpdates) {
