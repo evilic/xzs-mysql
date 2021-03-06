@@ -4,36 +4,32 @@ import com.mindskip.xzs.domain.enums.QuestionTypeEnum;
 import com.mindskip.xzs.utility.ExamUtil;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
-public class Question implements Serializable {
+public class QuestionCtm implements Serializable {
 
-    private static final long serialVersionUID = 8826266720383164363L;
+    private static final long serialVersionUID = -7886834704926187142L;
 
     private Integer id;
-
+    // 1.单选题 2.多选题 3.判断题 4.填空题 5.简答题
     private Integer questionType;
-
+    // 分类（对应原系统的级别）
+    private Integer categoryId;
+    // 学科/专业/科目
     private Integer subjectId;
-
-    private Integer score;
-
-    private Integer gradeLevel;
-
+    // 章节/单元
+    private Integer unitId;
+    // 知识点/标签
+    private String knowledge;
+    // 题目难度
     private Integer difficult;
-
-    private String correct;
-
+    // 题目 - 填空、 题干、解析、答案等信息
     private Integer infoTextContentId;
-
-    private Integer createUser;
-
-    private Integer status;
-
-    private Date createTime;
-
+    // 正确答案
+    private String correct;
+    // 是否删除
     private Boolean deleted;
+    // TODO: hash
 
     public Integer getId() {
         return id;
@@ -51,6 +47,14 @@ public class Question implements Serializable {
         this.questionType = questionType;
     }
 
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
+
     public Integer getSubjectId() {
         return subjectId;
     }
@@ -59,20 +63,20 @@ public class Question implements Serializable {
         this.subjectId = subjectId;
     }
 
-    public Integer getScore() {
-        return score;
+    public Integer getUnitId() {
+        return unitId;
     }
 
-    public void setScore(Integer score) {
-        this.score = score;
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
     }
 
-    public Integer getGradeLevel() {
-        return gradeLevel;
+    public String getKnowledge() {
+        return knowledge;
     }
 
-    public void setGradeLevel(Integer gradeLevel) {
-        this.gradeLevel = gradeLevel;
+    public void setKnowledge(String knowledge) {
+        this.knowledge = knowledge == null ? null : knowledge.trim();
     }
 
     public Integer getDifficult() {
@@ -83,14 +87,6 @@ public class Question implements Serializable {
         this.difficult = difficult;
     }
 
-    public String getCorrect() {
-        return correct;
-    }
-
-    public void setCorrect(String correct) {
-        this.correct = correct == null ? null : correct.trim();
-    }
-
     public Integer getInfoTextContentId() {
         return infoTextContentId;
     }
@@ -99,28 +95,12 @@ public class Question implements Serializable {
         this.infoTextContentId = infoTextContentId;
     }
 
-    public Integer getCreateUser() {
-        return createUser;
+    public String getCorrect() {
+        return correct;
     }
 
-    public void setCreateUser(Integer createUser) {
-        this.createUser = createUser;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCorrect(String correct) {
+        this.correct = correct == null ? null : correct.trim();
     }
 
     public Boolean getDeleted() {
@@ -130,7 +110,6 @@ public class Question implements Serializable {
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }
-
 
     public void setCorrectFromVM(String correct, List<String> correctArray) {
         int qType = this.getQuestionType();

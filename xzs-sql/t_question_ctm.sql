@@ -1,0 +1,1 @@
+INSERT INTO `t_question_ctm`(`id`, `question_type`, `category_id`, `subject_id`, `unit_id`, `knowledge`, `difficult`, `info_text_content_id`, `correct`, `deleted`) VALUES (8, 1, 1, 1, 1, '1', 1, 1, 'B', b'0');
