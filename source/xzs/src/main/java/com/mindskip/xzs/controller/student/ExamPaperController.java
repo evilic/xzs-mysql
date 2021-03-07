@@ -22,13 +22,13 @@ import javax.validation.Valid;
 public class ExamPaperController extends BaseApiController {
 
     private final ExamPaperService examPaperService;
-    private final ExamPaperAnswerService examPaperAnswerService;
+//    private final ExamPaperAnswerService examPaperAnswerService;
     private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
-    public ExamPaperController(ExamPaperService examPaperService, ExamPaperAnswerService examPaperAnswerService, ApplicationEventPublisher eventPublisher) {
+    public ExamPaperController(ExamPaperService examPaperService,  ApplicationEventPublisher eventPublisher) {
         this.examPaperService = examPaperService;
-        this.examPaperAnswerService = examPaperAnswerService;
+//        this.examPaperAnswerService = examPaperAnswerService;
         this.eventPublisher = eventPublisher;
     }
 
