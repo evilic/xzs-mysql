@@ -1,8 +1,6 @@
 package com.mindskip.xzs.configuration.spring.security;
 
 import com.mindskip.xzs.base.SystemCode;
-import com.mindskip.xzs.domain.UserEventLog;
-import com.mindskip.xzs.event.UserEvent;
 import com.mindskip.xzs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -15,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 
 /**
  * 登录成功返回
@@ -38,9 +35,9 @@ public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         User springUser = (User) authentication.getPrincipal();
         com.mindskip.xzs.domain.User user = userService.getUserByUserName(springUser.getUsername());
-        UserEventLog userEventLog = new UserEventLog(user.getId(), user.getUserName(), user.getRealName(), new Date());
-        userEventLog.setContent(user.getUserName() + " 登录了学之思考试系统");
-        eventPublisher.publishEvent(new UserEvent(userEventLog));
+//        UserEventLog userEventLog = new UserEventLog(user.getId(), user.getUserName(), user.getRealName(), new Date());
+//        userEventLog.setContent(user.getUserName() + " 登录了学之思考试系统");
+//        eventPublisher.publishEvent(new UserEvent(userEventLog));
         com.mindskip.xzs.domain.User newUser = new com.mindskip.xzs.domain.User();
         newUser.setUserName(user.getUserName());
         newUser.setImagePath(user.getImagePath());

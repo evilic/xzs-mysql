@@ -3,12 +3,9 @@ package com.mindskip.xzs.controller.wx.student;
 import com.mindskip.xzs.base.RestResponse;
 import com.mindskip.xzs.controller.wx.BaseWXApiController;
 import com.mindskip.xzs.domain.User;
-import com.mindskip.xzs.domain.UserEventLog;
 import com.mindskip.xzs.domain.enums.RoleEnum;
 import com.mindskip.xzs.domain.enums.UserStatusEnum;
-import com.mindskip.xzs.event.UserEvent;
 import com.mindskip.xzs.service.AuthenticationService;
-import com.mindskip.xzs.service.UserEventLogService;
 import com.mindskip.xzs.service.UserService;
 import com.mindskip.xzs.utility.DateTimeUtil;
 import com.mindskip.xzs.viewmodel.student.user.*;
@@ -20,9 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 /**
@@ -34,14 +29,12 @@ import java.util.stream.Collectors;
 public class UserController extends BaseWXApiController {
 
     private final UserService userService;
-    private final UserEventLogService userEventLogService;
     private final AuthenticationService authenticationService;
     private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
-    public UserController(UserService userService, UserEventLogService userEventLogService, AuthenticationService authenticationService, ApplicationEventPublisher eventPublisher) {
+    public UserController(UserService userService, AuthenticationService authenticationService, ApplicationEventPublisher eventPublisher) {
         this.userService = userService;
-        this.userEventLogService = userEventLogService;
         this.authenticationService = authenticationService;
         this.eventPublisher = eventPublisher;
     }
@@ -70,9 +63,9 @@ public class UserController extends BaseWXApiController {
         user.setCreateTime(new Date());
         user.setDeleted(false);
         userService.insertByFilter(user);
-        UserEventLog userEventLog = new UserEventLog(user.getId(), user.getUserName(), user.getRealName(), new Date());
-        userEventLog.setContent("欢迎 " + user.getUserName() + " 注册来到学之思考试系统");
-        eventPublisher.publishEvent(new UserEvent(userEventLog));
+//        UserEventLog userEventLog = new UserEventLog(user.getId(), user.getUserName(), user.getRealName(), new Date());
+//        userEventLog.setContent("欢迎 " + user.getUserName() + " 注册来到学之思考试系统");
+//        eventPublisher.publishEvent(new UserEvent(userEventLog));
         return RestResponse.ok();
     }
 
@@ -85,22 +78,22 @@ public class UserController extends BaseWXApiController {
         modelMapper.map(model, user);
         user.setModifyTime(new Date());
         userService.updateByIdFilter(user);
-        UserEventLog userEventLog = new UserEventLog(user.getId(), user.getUserName(), user.getRealName(), new Date());
-        userEventLog.setContent(user.getUserName() + " 更新了个人资料");
-        eventPublisher.publishEvent(new UserEvent(userEventLog));
+//        UserEventLog userEventLog = new UserEventLog(user.getId(), user.getUserName(), user.getRealName(), new Date());
+//        userEventLog.setContent(user.getUserName() + " 更新了个人资料");
+//        eventPublisher.publishEvent(new UserEvent(userEventLog));
         UserResponseVM userVm = UserResponseVM.from(user);
         return RestResponse.ok(userVm);
     }
 
-    @RequestMapping(value = "/log", method = RequestMethod.POST)
-    public RestResponse<List<UserEventLogVM>> log() {
-        User user = getCurrentUser();
-        List<UserEventLog> userEventLogs = userEventLogService.getUserEventLogByUserId(user.getId());
-        List<UserEventLogVM> userEventLogVMS = userEventLogs.stream().map(d -> {
-            UserEventLogVM vm = modelMapper.map(d, UserEventLogVM.class);
-            vm.setCreateTime(DateTimeUtil.dateFormat(d.getCreateTime()));
-            return vm;
-        }).collect(Collectors.toList());
-        return RestResponse.ok(userEventLogVMS);
-    }
+//    @RequestMapping(value = "/log", method = RequestMethod.POST)
+//    public RestResponse<List<UserEventLogVM>> log() {
+//        User user = getCurrentUser();
+//        List<UserEventLog> userEventLogs = userEventLogService.getUserEventLogByUserId(user.getId());
+//        List<UserEventLogVM> userEventLogVMS = userEventLogs.stream().map(d -> {
+//            UserEventLogVM vm = modelMapper.map(d, UserEventLogVM.class);
+//            vm.setCreateTime(DateTimeUtil.dateFormat(d.getCreateTime()));
+//            return vm;
+//        }).collect(Collectors.toList());
+//        return RestResponse.ok(userEventLogVMS);
+//    }
 }
