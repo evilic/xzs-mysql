@@ -110,14 +110,4 @@ public class QuestionCtm implements Serializable {
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }
-
-    public void setCorrectFromVM(String correct, List<String> correctArray) {
-        int qType = this.getQuestionType();
-        if (qType == QuestionTypeEnum.MultipleChoice.getCode()) {
-            String correctJoin = ExamUtil.contentToString(correctArray);
-            this.setCorrect(correctJoin);
-        } else {
-            this.setCorrect(correct);
-        }
-    }
 }

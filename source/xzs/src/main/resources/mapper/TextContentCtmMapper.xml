@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mindskip.xzs.repository.TextContentCtmMapper">
+    <resultMap id="BaseResultMap" type="com.mindskip.xzs.domain.TextContentCtm">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , content
+    </sql>
+    <!--    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
+    <!--        select-->
+    <!--        <include refid="Base_Column_List"/>-->
+    <!--        from t_text_content-->
+    <!--        where id = #{id,jdbcType=INTEGER}-->
+    <!--    </select>-->
+    <insert id="insert" parameterType="com.mindskip.xzs.domain.TextContentCtm" useGeneratedKeys="true" keyProperty="id">
+        insert into t_text_content_ctm (id, content)
+        values (#{id,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR})
+    </insert>
+</mapper>

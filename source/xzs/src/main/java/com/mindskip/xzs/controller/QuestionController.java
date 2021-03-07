@@ -31,9 +31,9 @@ public class QuestionController {
 
 
     @PostMapping("/v1/questions")
-    public RestResponse edit(@RequestBody @Valid QuestionRequest model) {
-        // TODO: 验证
-        questionCtmService.insert(model);
+    public RestResponse insertQuestion(@RequestBody @Valid QuestionRequest newQuestion) {
+        // TODO: 验证 model 的数据是否合法
+        questionCtmService.insert(newQuestion);
         return RestResponse.ok();
     }
 

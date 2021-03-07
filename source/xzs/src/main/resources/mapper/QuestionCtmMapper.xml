@@ -23,5 +23,13 @@
         from t_question_ctm
         where id = #{id} and deleted = 0
     </select>
-
+    <insert id="insert" parameterType="com.mindskip.xzs.domain.QuestionCtm" useGeneratedKeys="true" keyProperty="id">
+        insert into t_question_ctm (id, question_type, category_id, subject_id,
+                                    unit_id, knowledge, difficult,
+                                    info_text_content_id, correct, deleted)
+        values (#{id,jdbcType=INTEGER}, #{questionType,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER},
+                #{subjectId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{knowledge,jdbcType=VARCHAR},
+                #{difficult,jdbcType=INTEGER}, #{infoTextContentId,jdbcType=INTEGER}, #{correct,jdbcType=VARCHAR},
+                #{deleted,jdbcType=BIT})
+    </insert>
 </mapper>
