@@ -75,33 +75,4 @@ public class UserController extends BaseApiController {
         eventPublisher.publishEvent(new UserEvent(userEventLog));
         return RestResponse.ok();
     }
-
-
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public RestResponse update(@RequestBody @Valid UserUpdateVM model) {
-        if (StringUtils.isBlank(model.getBirthDay())) {
-            model.setBirthDay(null);
-        }
-        User user = userService.selectById(getCurrentUser().getId());
-        modelMapper.map(model, user);
-        user.setModifyTime(new Date());
-        userService.updateByIdFilter(user);
-        UserEventLog userEventLog = new UserEventLog(user.getId(), user.getUserName(), user.getRealName(), new Date());
-        userEventLog.setContent(user.getUserName() + " 更新了个人资料");
-        eventPublisher.publishEvent(new UserEvent(userEventLog));
-        return RestResponse.ok();
-    }
-
-    @RequestMapping(value = "/log", method = RequestMethod.POST)
-    public RestResponse<List<UserEventLogVM>> log() {
-        User user = getCurrentUser();
-        List<UserEventLog> userEventLogs = userEventLogService.getUserEventLogByUserId(user.getId());
-        List<UserEventLogVM> userEventLogVMS = userEventLogs.stream().map(d -> {
-            UserEventLogVM vm = modelMapper.map(d, UserEventLogVM.class);
-            vm.setCreateTime(DateTimeUtil.dateFormat(d.getCreateTime()));
-            return vm;
-        }).collect(Collectors.toList());
-        return RestResponse.ok(userEventLogVMS);
-    }
-
 }

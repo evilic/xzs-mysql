@@ -4,7 +4,6 @@ import com.mindskip.xzs.viewmodel.admin.exam.ExamPaperEditRequestVM;
 
 public class ExamPaperReadVM {
     private ExamPaperEditRequestVM paper;
-    private ExamPaperSubmitVM answer;
 
     public ExamPaperEditRequestVM getPaper() {
         return paper;
@@ -14,11 +13,4 @@ public class ExamPaperReadVM {
         this.paper = paper;
     }
 
-    public ExamPaperSubmitVM getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(ExamPaperSubmitVM answer) {
-        this.answer = answer;
-    }
 }
