@@ -1,54 +1,50 @@
-<p></p>
-<p></p>
+可供参考的资料：
+- 小程序的相关开发操作步骤：https://www.bilibili.com/video/av44106850
+- 相关开源的题库程序：https://www.goodfirms.co/blog/best-free-open-source-exam-software-solutions
 
-<p align="center">
-<a href="https://www.mindskip.net" target="_blank">
- <img src="doc/image/logo/1.png" height="80"/>
-<a/>
-</p>
+当前后端提供的管理员接口有：
 
-<div align="center">
+|   Api 功能   |  请求路径    |    额外说明   |
+| ---- | ---- | ---- |
+|    管理控制台简报  |  api/admin/dashboard/index ，method = RequestMethod.POST   |   感觉没啥用暂时。DashboardController.java   |
+| 当前用户的信息 | api/admin/user/current | UserController.java |
+| 列出用户 | api/admin/user/page/list | UserController.java 可以根据传来的参数进行数据的过滤（即分为学生列表，管理员列表等） |
+| 列出指定用户的操作记录 | api/admin/user/event/page/list | UserController.java |
+| 获取指定用户的信息 | api/admin/user/select/1 | UserController.java |
+| 未看 | /edit | UserController.java |
+| 未看 | /update | UserController.java |
+| 未看 | /changeStatus/{id} | UserController.java |
+| 未看 | /delete/{id} | UserController.java |
+| 未看 | /selectByUserName | UserController.java |
+| 获取学科 | api/admin/education/subject/list | EducationController.java |
+| 未看 | /subject/page | EducationController.java |
+| 未看 | /subject/edit | EducationController.java |
+| 未看 | /subject/select/{id} | EducationController.java |
+| 未看 | /subject/delete/{id} | EducationController.java |
+| 获取题目列表 | api/admin/question/page | QuestionController.java |
+| 未看 | /edit | QuestionController.java 不提供编辑功能 |
+| 未看 | /select/{id} | QuestionController.java 后台已新建替换代码 |
+| 未看 | /delete/{id} | QuestionController.java |
+| 跟任务考试有关，直接删除 | api/admin/exam/paper/taskExamPage | ExamPaperController.java |
+| 未看 | api/admin/exam/paper/page | ExamPaperController.java |
+| 未看 | /edit | ExamPaperController.java |
+| 未看 | /select/{id} | ExamPaperController.java |
+| 未看 | /delete/{id} | ExamPaperController.java |
+| 获取答卷列表 | api/admin/examPaperAnswer/page | ExamPaperAnswerController.java 对我来说球用没有，估计马上就干掉了 |
+|  |  | 。。。。 |
+剩下的先不管了，跟我的需求没有太大的关系。
 
-[![Gitee star](https://gitee.com/mindskip/xzs-mysql/badge/star.svg?theme=gitee)](https://gitee.com/mindskip/xzs-mysql)
-[![Gitee fork](https://gitee.com/mindskip/xzs-mysql/badge/fork.svg?theme=gitee)](https://gitee.com/mindskip/xzs-mysql)
-[![Github stars](https://img.shields.io/github/stars/mindskip/xzs-mysql?logo=github)](https://github.com/mindskip/xzs-mysql)
-[![Github forks](https://img.shields.io/github/forks/mindskip/xzs-mysql?logo=github)](https://github.com/mindskip/xzs-mysql)
-[![Github license](https://img.shields.io/badge/license-AGPL-yellow)](https://gitee.com/mindskip/xzs-mysql/blob/master/LICENSE)
+我需要的功能：
+- 列出提供了哪些专业的内容
+- 获取指定的单个题目、增加、删除题目
+- 获取指定的序列
 
-</div>
 
 # 学之思在线考试系统 - Mysql版
 
-## 项目介绍
-
-学之思在线考试系统是一款 java + vue 的前后端分离的考试系统。主要优点是开发、部署简单快捷、界面设计友好、代码结构清晰。支持web端和微信小程序，能覆盖到pc机和手机等设备。
-支持多种部署方式：集成部署、前后端分离部署、docker部署。
-
-### 开源版使用须知
-
-* 仅用个人学习
-* 禁止将本项目的代码和资源进行任何形式的出售，产生的一切任何后果责任由侵权者自负
-
 ### 演示地址
 
-* 官网：[https://www.mindskip.net](https://www.mindskip.net)
 * 学之思考试系统：[https://www.mindskip.net/xzs.html](https://www.mindskip.net/xzs.html)
-* 思多多智能考试平台：[https://www.mindskip.net/sdd.html](https://www.mindskip.net/sdd.html)
-* 维多多培训考试系统：[https://www.mindskip.net/wdd.html](https://www.mindskip.net/wdd.html)
-* 学多多考试系统：[https://www.mindskip.net/xdd.html](https://www.mindskip.net/xdd.html)
-
-### 学之思仓库版本地址
-
-* gitee - postgresql ：[https://gitee.com/mindskip/uexam](https://gitee.com/mindskip/uexam)
-* gitee - mysql ：[https://gitee.com/mindskip/xzs-mysql](https://gitee.com/mindskip/xzs-mysql)
-* github - postgresql ：[https://github.com/mindskip/xzs](https://github.com/mindskip/xzs)
-* github - mysql ：[https://github.com/mindskip/xzs-mysql](https://github.com/mindskip/xzs-mysql)
-
-### 学之思交流群(加群获取数据库脚本)
-
-* QQ交流群七：`873533715`
-* QQ：`2693073475`
-* 微信：`alvis-u`
 
 ### 开发部署教程
 
@@ -85,38 +81,3 @@
 * 试卷模块：固定试卷和时段试卷的分页查询，下拉加载更多、上拉刷新当前数据
 * 记录模块：考试结果的分页，包含了试卷基本信息
 * 我的模块：包含个人资料的修改、个人动态、消息中心模块
-
-### 系统展示
-
-* 学生考试系统
-<table>
-    <tr>
-        <td><img src="doc/image/student/2.png"/></td>
-        <td><img src="doc/image/student/12.png"/></td>
-    </tr>
-</table>
-
-*  小程序考试系统
-<table>
-    <tr>
-        <td><img src="doc/image/wx/student/1.png"/></td>
-        <td><img src="doc/image/wx/student/2.png"/></td>
-        <td><img src="doc/image/wx/student/3.png"/></td>
-        <td><img src="doc/image/wx/student/4.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="doc/image/wx/student/5.png"/></td>
-        <td><img src="doc/image/wx/student/8.png"/></td>
-        <td><img src="doc/image/wx/student/6.png"/></td>
-        <td><img src="doc/image/wx/student/7.png"/></td>
-    </tr>
-</table>
-
-* 后台管理系统
-
-<table>
-    <tr>
-        <td><img src="doc/image/admin/12.png"/></td>
-        <td><img src="doc/image/admin/13.png"/></td>
-    </tr>
-</table>
