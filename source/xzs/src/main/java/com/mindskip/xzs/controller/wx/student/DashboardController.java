@@ -41,40 +41,6 @@ public class DashboardController extends BaseWXApiController {
         return RestResponse.ok(indexVM);
     }
 
-//    @RequestMapping(value = "/task", method = RequestMethod.POST)
-//    public RestResponse<List<TaskItemVm>> task() {
-//        User user = getCurrentUser();
-//        List<TaskExam> taskExams = taskExamService.getByGradeLevel(user.getUserLevel());
-//        if (taskExams.size() == 0) {
-//            return RestResponse.ok(new ArrayList<>());
-//        }
-//        List<Integer> tIds = taskExams.stream().map(taskExam -> taskExam.getId()).collect(Collectors.toList());
-//        List<TaskExamCustomerAnswer> taskExamCustomerAnswers = taskExamCustomerAnswerService.selectByTUid(tIds, user.getId());
-//        List<TaskItemVm> vm = taskExams.stream().map(t -> {
-//            TaskItemVm itemVm = new TaskItemVm();
-//            itemVm.setId(t.getId());
-//            itemVm.setTitle(t.getTitle());
-//            TaskExamCustomerAnswer taskExamCustomerAnswer = taskExamCustomerAnswers.stream()
-//                    .filter(tc -> tc.getTaskExamId().equals(t.getId())).findFirst().orElse(null);
-//            List<TaskItemPaperVm> paperItemVMS = getTaskItemPaperVm(t.getFrameTextContentId(), taskExamCustomerAnswer);
-//            itemVm.setPaperItems(paperItemVMS);
-//            return itemVm;
-//        }).collect(Collectors.toList());
-//        return RestResponse.ok(vm);
-//    }
-
-//
-//    private List<TaskItemPaperVm> getTaskItemPaperVm(Integer tFrameId, TaskExamCustomerAnswer taskExamCustomerAnswers) {
-//        TextContent textContent = textContentService.selectById(tFrameId);
-//        List<TaskItemObject> paperItems = JsonUtil.toJsonListObject(textContent.getContent(), TaskItemObject.class);
-//
-//        List<TaskItemAnswerObject> answerPaperItems = null;
-//        if (null != taskExamCustomerAnswers) {
-//            TextContent answerTextContent = textContentService.selectById(taskExamCustomerAnswers.getTextContentId());
-//            answerPaperItems = JsonUtil.toJsonListObject(answerTextContent.getContent(), TaskItemAnswerObject.class);
-//        }
-//
-//
 //        List<TaskItemAnswerObject> finalAnswerPaperItems = answerPaperItems;
 //        return paperItems.stream().map(p -> {
 //                    TaskItemPaperVm ivm = new TaskItemPaperVm();

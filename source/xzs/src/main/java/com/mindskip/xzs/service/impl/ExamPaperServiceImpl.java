@@ -1,19 +1,14 @@
 package com.mindskip.xzs.service.impl;
 
-import com.mindskip.xzs.domain.*;
 import com.mindskip.xzs.domain.TextContent;
-import com.mindskip.xzs.domain.enums.ExamPaperTypeEnum;
 import com.mindskip.xzs.domain.exam.ExamPaperQuestionItemObject;
 import com.mindskip.xzs.domain.exam.ExamPaperTitleItemObject;
-import com.mindskip.xzs.domain.other.KeyValue;
 import com.mindskip.xzs.repository.ExamPaperMapper;
 import com.mindskip.xzs.repository.QuestionMapper;
 import com.mindskip.xzs.service.ExamPaperService;
 import com.mindskip.xzs.service.QuestionService;
 import com.mindskip.xzs.service.SubjectService;
 import com.mindskip.xzs.service.TextContentService;
-import com.mindskip.xzs.service.enums.ActionEnum;
-import com.mindskip.xzs.utility.DateTimeUtil;
 import com.mindskip.xzs.utility.JsonUtil;
 import com.mindskip.xzs.utility.ModelMapperSingle;
 import com.mindskip.xzs.utility.ExamUtil;
@@ -34,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -68,12 +62,6 @@ public class ExamPaperServiceImpl extends BaseServiceImpl<ExamPaper> implements 
     }
 
     @Override
-    public PageInfo<ExamPaper> taskExamPage(ExamPaperPageRequestVM requestVM) {
-        return PageHelper.startPage(requestVM.getPageIndex(), requestVM.getPageSize(), "id desc").doSelectPageInfo(() ->
-                examPaperMapper.taskExamPage(requestVM));
-    }
-
-    @Override
     public PageInfo<ExamPaper> studentPage(ExamPaperPageVM requestVM) {
         return PageHelper.startPage(requestVM.getPageIndex(), requestVM.getPageSize(), "id desc").doSelectPageInfo(() ->
                 examPaperMapper.studentPage(requestVM));
@@ -83,14 +71,15 @@ public class ExamPaperServiceImpl extends BaseServiceImpl<ExamPaper> implements 
     @Override
     @Transactional
     public ExamPaper savePaperFromVM(ExamPaperEditRequestVM examPaperEditRequestVM, User user) {
-        ActionEnum actionEnum = (examPaperEditRequestVM.getId() == null) ? ActionEnum.ADD : ActionEnum.UPDATE;
+//        ActionEnum actionEnum = (examPaperEditRequestVM.getId() == null) ? ActionEnum.ADD : ActionEnum.UPDATE;
         Date now = new Date();
         List<ExamPaperTitleItemVM> titleItemsVM = examPaperEditRequestVM.getTitleItems();
         List<ExamPaperTitleItemObject> frameTextContentList = frameTextContentFromVM(titleItemsVM);
         String frameTextContentStr = JsonUtil.toJsonStr(frameTextContentList);
 
+        // 全部按新建来操作。
         ExamPaper examPaper;
-        if (actionEnum == ActionEnum.ADD) {
+//        if (actionEnum == ActionEnum.ADD) {
             examPaper = modelMapper.map(examPaperEditRequestVM, ExamPaper.class);
             TextContent frameTextContent = new TextContent(frameTextContentStr, now);
             textContentService.insertByFilter(frameTextContent);
@@ -100,15 +89,15 @@ public class ExamPaperServiceImpl extends BaseServiceImpl<ExamPaper> implements 
             examPaper.setDeleted(false);
             examPaperFromVM(examPaperEditRequestVM, examPaper, titleItemsVM);
             examPaperMapper.insertSelective(examPaper);
-        } else {
-            examPaper = examPaperMapper.selectByPrimaryKey(examPaperEditRequestVM.getId());
-            TextContent frameTextContent = textContentService.selectById(examPaper.getFrameTextContentId());
-            frameTextContent.setContent(frameTextContentStr);
-            textContentService.updateByIdFilter(frameTextContent);
-            modelMapper.map(examPaperEditRequestVM, examPaper);
-            examPaperFromVM(examPaperEditRequestVM, examPaper, titleItemsVM);
-            examPaperMapper.updateByPrimaryKeySelective(examPaper);
-        }
+//        } else {
+//            examPaper = examPaperMapper.selectByPrimaryKey(examPaperEditRequestVM.getId());
+//            TextContent frameTextContent = textContentService.selectById(examPaper.getFrameTextContentId());
+//            frameTextContent.setContent(frameTextContentStr);
+//            textContentService.updateByIdFilter(frameTextContent);
+//            modelMapper.map(examPaperEditRequestVM, examPaper);
+//            examPaperFromVM(examPaperEditRequestVM, examPaper, titleItemsVM);
+//            examPaperMapper.updateByPrimaryKeySelective(examPaper);
+//        }
         return examPaper;
     }
 
@@ -147,18 +136,6 @@ public class ExamPaperServiceImpl extends BaseServiceImpl<ExamPaper> implements 
     @Override
     public List<PaperInfo> indexPaper(PaperFilter paperFilter) {
         return examPaperMapper.indexPaper(paperFilter);
-    }
-
-    @Override
-    public List<Integer> selectMothCount() {
-        Date startTime = DateTimeUtil.getMonthStartDay();
-        Date endTime = DateTimeUtil.getMonthEndDay();
-        List<KeyValue> mouthCount = examPaperMapper.selectCountByDate(startTime, endTime);
-        List<String> mothStartToNowFormat = DateTimeUtil.MothStartToNowFormat();
-        return mothStartToNowFormat.stream().map(md -> {
-            KeyValue keyValue = mouthCount.stream().filter(kv -> kv.getName().equals(md)).findAny().orElse(null);
-            return null == keyValue ? 0 : keyValue.getValue();
-        }).collect(Collectors.toList());
     }
 
     private void examPaperFromVM(ExamPaperEditRequestVM examPaperEditRequestVM, ExamPaper examPaper, List<ExamPaperTitleItemVM> titleItemsVM) {

@@ -24,18 +24,20 @@ public class QuestionController {
     }
 
     @GetMapping("/v1/questions/{questionId}")
-    public QuestionCtm getQuestion(@PathVariable Integer questionId) {
+    public QuestionCtm getSpecifiedQuestion(@PathVariable Integer questionId) {
         return questionCtmService.selectById(questionId);
 //        return RestResponse.ok(page);
     }
 
 
     @PostMapping("/v1/questions")
-    public RestResponse insertQuestion(@RequestBody @Valid QuestionRequest newQuestion) {
+    public RestResponse addQuestion(@RequestBody @Valid QuestionRequest newQuestion) {
         // TODO: 验证 model 的数据是否合法
         questionCtmService.insert(newQuestion);
         return RestResponse.ok();
     }
+
+    // TODO: 错题功能暂不提供
 
 //    @RequestMapping(value = "/select/{id}", method = RequestMethod.POST)
 //    public RestResponse<QuestionEditRequestVM> select(@PathVariable Integer id) {
